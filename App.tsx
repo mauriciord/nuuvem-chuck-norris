@@ -1,24 +1,15 @@
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
-import styled from 'styled-components/native';
+import { theme } from 'shared/constants/theme';
 
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-  justify-content: center;
-`;
+import RootNavigation from './src/navigation/RootNavigation';
 
-const Text = styled.Text`
-  color: #111;
-`;
-
-export default function App() {
+const App = () => {
   return (
-    <PaperProvider>
-      <Container>
-        <Text>Nuuvem Project</Text>
-      </Container>
+    <PaperProvider theme={theme}>
+      <RootNavigation />
     </PaperProvider>
   );
-}
+};
+
+export default App;

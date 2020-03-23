@@ -6,6 +6,30 @@
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    // autocomplete paths
+    "paths": {
+      "*": ["src/*", "assets/*"],
+      "components/*": ["src/components/*"],
+      "constants/*": ["src/constants/*"],
+      "features/*": ["src/features/*"],
+      "navigation/*": ["src/navigation/*"],
+      "screens/*": ["src/screens/*"],
+      "services/*": ["src/services/*"],
+      "shared/*": ["src/shared/*"],
+      "state/*": ["src/state/*"],
+      "utils/*": ["src/utils/*"],
+      "assets/*": ["assets/*"]
+    },
+    "removeComments": true,
+    "typeRoots": ["node_modules/@types", "./src/@types"],
+    "esModuleInterop": true
+  },
+  "include": ["src", "assets"],
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*"
+  ]
 }
