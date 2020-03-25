@@ -1,19 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Text, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 
 import SearchScreen from '../screens/SearchScreen';
+import SearchResultsScreen from '../screens/SearchResultsScreen';
 
 const Stack = createStackNavigator();
 
-function TestScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Results => Search</Text>
-    </View>
-  );
-}
 const SearchStack = () => {
   return (
     <Stack.Navigator
@@ -35,7 +29,7 @@ const SearchStack = () => {
           header: () => null,
         }}
       />
-      <Stack.Screen name="SearchResults" component={TestScreen} />
+      <Stack.Screen name="SearchResults" component={SearchResultsScreen} />
     </Stack.Navigator>
   );
 };

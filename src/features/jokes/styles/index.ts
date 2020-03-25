@@ -1,7 +1,12 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TextInput } from 'react-native-paper';
 import { AspectImage } from 'shared/components';
+import { LinearGradient } from 'expo-linear-gradient';
+import {
+  TextInput,
+  Card as CardPaper,
+  withTheme,
+  IconButton,
+} from 'react-native-paper';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -35,6 +40,16 @@ export const Image = styled(AspectImage)`
   width: ${props => props.dimension * 0.4}px;
   height: ${props => props.dimension * 0.4}px;
 `;
+
+export const Card = styled(CardPaper)`
+  margin: 10px 5px;
+`;
+
+export const CardActions = styled(CardPaper.Actions)`
+  justify-content: flex-end;
+`;
+
+export const FavoriteButton = styled(IconButton)``;
 
 export const KeyboardScroll = styled(KeyboardAwareScrollView).attrs(() => ({
   contentContainerStyle: {

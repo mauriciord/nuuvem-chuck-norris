@@ -1,5 +1,5 @@
-import { SearchForm } from 'features/jokes';
 import React from 'react';
+import SearchForm from '../components/SearchForm';
 
 const SearchScreen = () => <SearchForm />;
 
