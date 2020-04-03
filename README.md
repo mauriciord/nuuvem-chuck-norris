@@ -15,6 +15,15 @@ If you are running this project in a iOS or an Android simulator, you will get t
 
 ## How to run the project
 
+You should clone this project, so:
+
+```
+cd nuuvem-chuck-norris
+yarn
+```
+
+Then, you can use the available main scripts:
+
 `yarn [SCRIPT]`
 
 **Scripts:**
