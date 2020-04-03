@@ -1,10 +1,10 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 
-import { db } from 'services/local-database';
-import JokeItem, { Joke } from './JokeItem';
 import { Container, GradientContainer } from '../styles';
+import JokeItem, { Joke } from './JokeItem';
+import { db } from './JokesList';
 
 const JokesList = () => {
   const [favoritesJokes, setFavoritesJokes] = useState([]);
@@ -27,9 +27,16 @@ const JokesList = () => {
     });
   }, []);
 
-  useEffect(() => fetchDatabase(), []);
+  useEffect(() => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'create table if not exists fav_jokes (id text primary key not null, value text);'
+      );
+    });
+    fetchDatabase();
+  }, []);
 
-  useFocusEffect(() => fetchDatabase(), []);
+  useFocusEffect(() => fetchDatabase());
 
   return (
     <Container>

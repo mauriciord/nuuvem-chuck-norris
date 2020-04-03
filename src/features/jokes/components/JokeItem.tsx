@@ -1,5 +1,5 @@
 import { Card, CardActions, FavoriteButton } from 'features/jokes/styles';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Paragraph } from 'react-native-paper';
 
 export type Joke = {
@@ -14,8 +14,8 @@ export type Joke = {
 
 export type JokeItemProps = {
   item: Joke;
-  onPressItem: ({ id, value }: { id: string; value: string }) => void;
-  isFavorite: boolean;
+  onPressItem?: ({ id, value }: { id: string; value: string }) => void;
+  isFavorite?: boolean;
   isFavoriteView?: boolean;
 };
 
@@ -26,7 +26,6 @@ const JokeItem = ({
   isFavoriteView,
 }: JokeItemProps) => {
   const { id, value } = item;
-  console.log(isFavorite);
 
   return (
     <Card>
@@ -34,17 +33,19 @@ const JokeItem = ({
         <Paragraph>{value}</Paragraph>
       </Card.Content>
       <CardActions>
-        <FavoriteButton
-          icon={
-            isFavoriteView
-              ? 'bookmark-remove'
-              : isFavorite
-              ? 'bookmark'
-              : 'bookmark-outline'
-          }
-          size={25}
-          onPress={() => onPressItem && onPressItem({ id, value })}
-        />
+        {onPressItem && (
+          <FavoriteButton
+            icon={
+              isFavoriteView
+                ? 'bookmark-remove'
+                : isFavorite
+                ? 'bookmark'
+                : 'bookmark-outline'
+            }
+            size={25}
+            onPress={() => onPressItem && onPressItem({ id, value })}
+          />
+        )}
       </CardActions>
     </Card>
   );

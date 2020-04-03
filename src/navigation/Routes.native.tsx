@@ -1,9 +1,8 @@
-import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { SearchStack, FavoritesStack } from 'features/jokes';
+import React from 'react';
 import { enableScreens } from 'react-native-screens';
 import { theme } from 'shared/constants/theme';
 
@@ -16,7 +15,7 @@ enableScreens();
 
 const Tab = createMaterialBottomTabNavigator<RootTabParamList>();
 
-const RootNavigation = () => (
+const Routes = () => (
   <NavigationContainer>
     <Tab.Navigator
       initialRouteName="SearchStack"
@@ -45,4 +44,4 @@ const RootNavigation = () => (
   </NavigationContainer>
 );
 
-export default RootNavigation;
+export default Routes;

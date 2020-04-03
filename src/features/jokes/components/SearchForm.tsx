@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Field, Formik, FormikProps } from 'formik';
+import React, { useCallback, useState } from 'react';
 import { Button, HelperText } from 'react-native-paper';
 import { useDimensions } from 'react-native-web-hooks';
-import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
+
 import {
   Container,
   GradientContainer,
@@ -30,10 +31,21 @@ const SearchForm = () => {
     window: { height },
   } = useDimensions();
   const navigation = useNavigation();
+  const [isFeelingLucky, setIsFeelingLucky] = useState(false);
+
+  const handleSearch = useCallback(
+    ({ query, callback }) => () => {
+      setIsFeelingLucky(false);
+      callback();
+    },
+    [navigation]
+  );
 
   const handleFeelingLucky = useCallback(
-    query => () =>
-      navigation.navigate('SearchResults', { query, feelingLucky: true }),
+    ({ query, callback }) => () => {
+      setIsFeelingLucky(true);
+      callback();
+    },
     [navigation]
   );
 
@@ -47,7 +59,10 @@ const SearchForm = () => {
           initialValues={{ query: '' }}
           validationSchema={SearchFormSchema}
           onSubmit={({ query }, { resetForm }) => {
-            navigation.navigate('SearchResults', { query });
+            navigation.navigate('SearchResults', {
+              query,
+              feelingLucky: isFeelingLucky,
+            });
             resetForm();
           }}
         >
@@ -87,11 +102,20 @@ const SearchForm = () => {
                   <Button
                     mode="contained"
                     icon="search-web"
-                    onPress={handleSubmit}
+                    onPress={handleSearch({
+                      query,
+                      callback: handleSubmit,
+                    })}
                   >
                     Search
                   </Button>
-                  <Button mode="contained" onPress={handleFeelingLucky(query)}>
+                  <Button
+                    mode="contained"
+                    onPress={handleFeelingLucky({
+                      query,
+                      callback: handleSubmit,
+                    })}
+                  >
                     I'm feeling lucky
                   </Button>
                 </FormRow>

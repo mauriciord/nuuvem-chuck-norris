@@ -1,18 +1,21 @@
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AspectImage } from 'shared/components';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  TextInput,
-  Card as CardPaper,
-  withTheme,
-  IconButton,
-} from 'react-native-paper';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { TextInput, Card as CardPaper, IconButton } from 'react-native-paper';
+import { AspectImage } from 'shared/components';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+export const WrapperContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1024px;
 `;
 
 export const GradientContainer = styled(LinearGradient).attrs(() => ({
@@ -64,4 +67,13 @@ export const KeyboardScroll = styled(KeyboardAwareScrollView).attrs(() => ({
   flex: 1;
   align-self: stretch;
   width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+`;
+
+export const List = styled.FlatList`
+  flex: 1;
+  width: 100%;
+  padding-top: 90px;
+  padding-bottom: 120px;
 `;

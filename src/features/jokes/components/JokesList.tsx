@@ -1,40 +1,36 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useCallback,
-} from 'react';
-import { FlatList } from 'react-native';
-import { Headline, Paragraph } from 'react-native-paper';
-import { useQuery } from 'react-query';
-import { db } from 'services/local-database';
-import { Firebase } from 'shared/constants';
-import fetchWithRetries from 'shared/helpers/fetchWithRetries';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
+import * as SQLite from 'expo-sqlite';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
+import { Headline } from 'react-native-paper';
+import { useQueryJokes } from 'shared/hooks';
 
+import { Container, GradientContainer, List } from '../styles';
 import JokeItem, { Joke } from './JokeItem';
 
-import {
-  Container,
-  GradientContainer,
-  Card,
-  CardActions,
-  FavoriteButton,
-} from '../styles';
+export const db = SQLite.openDatabase('db.db');
 
 const JokesList = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
   const query = route.params.query;
+  const isFeelingLucky = route.params.feelingLucky;
 
-  const fetchJokes = (string, arg) => {
-    return fetchWithRetries(
-      `https://api.chucknorris.io/jokes/search?query=${arg}`
-    ).then(res => res.json());
-  };
+  const fetchDatabase = useCallback(() => {
+    db.transaction(tx => {
+      tx.executeSql('select id from fav_jokes', [], (_, { rows }) => {
+        setFavoritesJokesId(rows._array.map(joke => joke.id));
+      });
+    });
+  }, []);
 
-  const { data, status } = useQuery(query && ['jokes', query], fetchJokes);
+  const [results, { normal: status }] = useQueryJokes(query, {
+    isFeelingLucky,
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -67,13 +63,7 @@ const JokesList = () => {
     }
   };
 
-  useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql('select id from fav_jokes', [], (_, { rows }) => {
-        setFavoritesJokesId(rows._array.map(joke => joke.id));
-      });
-    });
-  }, []);
+  useFocusEffect(() => fetchDatabase());
 
   if (status === 'loading') {
     return (
@@ -84,19 +74,11 @@ const JokesList = () => {
     );
   }
 
-  const { result } = data;
-
   return (
     <Container>
       <GradientContainer />
-      <FlatList
-        style={{
-          flex: 1,
-          width: '100%',
-          paddingTop: 90,
-          paddingBottom: 120,
-        }}
-        data={result}
+      <List
+        data={results}
         keyExtractor={item => item.id}
         renderItem={({ item }: { item: Joke }) => (
           <JokeItem
