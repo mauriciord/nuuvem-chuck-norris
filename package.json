@@ -9,7 +9,7 @@
     "build": "expo build:web",
     "debug-prod": "expo build:web && npx serve ./web-build",
     "now-build": "yarn build && expo-optimize",
-    "predeploy": "npm run build && expo optimize",
+    "predeploy": "npm run build && expo-optimize",
     "deploy": "netlify deploy --dir web-build --prod"
   },
   "dependencies": {
